@@ -44,7 +44,6 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
 
   args.GetReturnValue().Set(readout);
   */
-}
 
 void Read(const Nan::FunctionCallbackInfo<Value>& args) {
 }
