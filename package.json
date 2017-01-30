@@ -1,10 +1,10 @@
 {
   "author": "Martin Probst",
   "name": "node-ad-da",
-  "description": "Reads data from ADSxxx on Raspberry Pi",
+  "description": "Reads/writes data from ADS1256/DAC8532 on Raspberry Pi",
   "version": "0.0.1",
   "repository": {
-    "url": "https://github.com/probst/"
+    "url": "https://github.com/probstmartin/"
   },
   "scripts": {
     "preinstall": "./check-lib.sh",

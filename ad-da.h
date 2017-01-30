@@ -3,6 +3,6 @@
 
 int initialize();
 unsigned long long getTime();
-long readDHT(int type, int pin, float &temperature, float &humidity);
+long readADC();
 
 #endif

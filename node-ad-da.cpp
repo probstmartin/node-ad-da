@@ -7,14 +7,9 @@
 using namespace v8;
 
 extern int initialized;
-extern unsigned long long last_read[32];
-extern float last_temperature[32];
-extern float last_humidity[32];
 
 std::mutex sensorMutex;
 
-int _gpio_pin = 4;
-int _sensor_type = 11;
 int _max_retries = 3;
 
 class ReadWorker : public Nan::AsyncWorker {
@@ -67,12 +62,10 @@ class ReadWorker : public Nan::AsyncWorker {
         return;
       }
 
-      temperature = last_temperature[gpio_pin],
-      humidity = last_humidity[gpio_pin];
       int retry = _max_retries;
       int result = 0;
       while (true) {
-        result = readDHT(sensor_type, gpio_pin, temperature, humidity);
+        result = readADC();
         if (result == 0 || --retry < 0) break;
         usleep(450000);
       }
@@ -120,11 +113,12 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
   int retry = _max_retries;
   int result = 0;
   while (true) {
-    result = readDHT(sensor_type, gpio_pin, temperature, humidity);
+    result = readADC();
     if (result == 0 || --retry < 0) break;
     usleep(450000);
   }
 
+  /*
   Local<Object> readout = Nan::New<Object>();
   readout->Set(Nan::New("humidity").ToLocalChecked(), Nan::New<Number>(humidity));
   readout->Set(Nan::New("temperature").ToLocalChecked(), Nan::New<Number>(temperature));
@@ -132,6 +126,7 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
   readout->Set(Nan::New("errors").ToLocalChecked(), Nan::New<Number>(_max_retries - retry));
 
   args.GetReturnValue().Set(readout);
+  */
 }
 
 void Read(const Nan::FunctionCallbackInfo<Value>& args) {
@@ -159,36 +154,7 @@ void SetMaxRetries(const Nan::FunctionCallbackInfo<Value>& args) {
 }
 
 void Initialize(const Nan::FunctionCallbackInfo<Value>& args) {
-    if (args.Length() < 2) {
-			Nan::ThrowTypeError("Wrong number of arguments");
-			return;
-    }
-
-    if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
-			Nan::ThrowTypeError("Invalid arguments");
-			return;
-    }
-
-    if (args.Length() >= 3) {
-      if (!args[2]->IsNumber()) {
-        Nan::ThrowTypeError("Invalid maxRetries parameter");
-  			return;
-      } else {
-        _max_retries = args[2]->Uint32Value();
-      }
-    }
-
-    int sensor_type = args[0]->Uint32Value();
-    if (sensor_type != 11 && sensor_type != 22) {
-    	Nan::ThrowTypeError("Specified sensor type is not supported");
-    	return;
-    }
-
-    // update parameters
-    _sensor_type = sensor_type;
-    _gpio_pin = args[1]->Uint32Value();
-
-    args.GetReturnValue().Set(Nan::New<Boolean>(initialize() == 0));
+    
 }
 
 void Init(Handle<Object> exports) {
@@ -197,4 +163,4 @@ void Init(Handle<Object> exports) {
   Nan::SetMethod(exports, "setMaxRetries", SetMaxRetries);
 }
 
-NODE_MODULE(node_dht_sensor, Init);
+NODE_MODULE(node_ad_da, Init);

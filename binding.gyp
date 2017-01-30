@@ -2,7 +2,7 @@
   'targets': [
     {
       "variables": {
-        "dht_verbose%": "false"
+        "ad_da_verbose%": "false"
       },
       "target_name": "node-ad-da",
       "sources": [ "node-ad-da.cpp", "ad-da.cpp" ],
@@ -16,7 +16,7 @@
           "include_dirs+": "/usr/local/lib/libbcm2835.a",
           "sources": ["node-ad-da.cpp", "ad-da.cpp" ]
         }],
-        ["dht_verbose=='true'", {
+        ["ad_da_verbose=='true'", {
           "defines": [ "VERBOSE" ]
         }]
       ]
