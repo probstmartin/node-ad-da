@@ -11,9 +11,8 @@ int _max_retries = 3;
 
 class ReadWorker : public Nan::AsyncWorker {
   public:
-    ReadWorker(Nan::Callback *callback, int sensor_type, int gpio_pin)
-      : Nan::AsyncWorker(callback), sensor_type(sensor_type),
-        gpio_pin(gpio_pin) { }
+    ReadWorker(Nan::Callback *callback)
+      : Nan::AsyncWorker(callback) { }
 
     void Execute() {
     }
