@@ -29,6 +29,8 @@ class ReadWorker : public Nan::AsyncWorker {
 
   private:
 
+    bool failed = false;
+
     void Init() {
       if (!initialized) {
         initialized = initialize() == 0;
@@ -49,7 +51,7 @@ class ReadWorker : public Nan::AsyncWorker {
 
 void ReadAsync(const Nan::FunctionCallbackInfo<Value>& args) {
   Nan::Callback *callback = new Nan::Callback(args[2].As<Function>());
-  
+
   Nan::AsyncQueueWorker(new ReadWorker(callback));
 }
 
