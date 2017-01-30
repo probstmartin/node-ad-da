@@ -31,7 +31,7 @@
 #define channel_B   0x34
 
 
-typedef enum {FALSE = 0, TRUE = !FALSE} bool;
+//typedef enum {FALSE = 0, TRUE = !FALSE} bool;
 
 
 /* gain channelî */
