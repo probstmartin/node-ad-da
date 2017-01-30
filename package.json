@@ -1,0 +1,19 @@
+{
+  "author": "Martin Probst",
+  "name": "node-ad-da",
+  "description": "Reads data from ADSxxx on Raspberry Pi",
+  "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/probst/"
+  },
+  "scripts": {
+    "preinstall": "./check-lib.sh",
+    "install": "node-gyp configure",
+    "postinstall": "node-gyp build"
+  },
+  "main": "./build/Release/node_ad_da",
+  "dependencies": {
+    "nan": "^2.4.0"
+  },
+  "license": "LGPL-3.0"
+}
