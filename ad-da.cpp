@@ -4,12 +4,6 @@
 #include <bcm2835.h>
 #include <unistd.h>
 
-#define BCM2708_PERI_BASE   0x20000000
-#define GPIO_BASE           (BCM2708_PERI_BASE + 0x200000)
-#define MAXTIMINGS          100
-#define DHT11               11
-#define DHT22               22
-#define AM2302              22
 
 int initialized = 0;
 unsigned long long last_read[32] = {};
