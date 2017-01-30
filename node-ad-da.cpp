@@ -1,11 +1,14 @@
 #include <node.h>
 #include <nan.h>
 #include <unistd.h>
+#include <mutex>
 #include "ad-da.h"
 
 using namespace v8;
 
 extern int initialized;
+
+std::mutex sensorMutex;
 
 int _max_retries = 3;
 
@@ -15,6 +18,10 @@ class ReadWorker : public Nan::AsyncWorker {
       : Nan::AsyncWorker(callback) { }
 
     void Execute() {
+      sensorMutex.lock();
+      Init();
+      Read();
+      sensorMutex.unlock();
     }
 
     void HandleOKCallback() {
@@ -23,17 +30,32 @@ class ReadWorker : public Nan::AsyncWorker {
   private:
 
     void Init() {
+      if (!initialized) {
+        initialized = initialize() == 0;
+      }
     }
 
     void Read() {
+      while (true) {
+        result = readADS();
+        if (result == 0 || --retry < 0) break;
+        usleep(450000);
+      }
+      failed = result != 0;
     }
 };
 
 void ReadAsync(const Nan::FunctionCallbackInfo<Value>& args) {
+  Nan::AsyncQueueWorker(new ReadWorker());
 }
 
 void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) { 
-}
+  while (true) {
+    result = readADS();
+    if (result == 0 || --retry < 0) break;
+    usleep(450000);
+  }
+
 
   /*
   Local<Object> readout = Nan::New<Object>();
@@ -44,6 +66,8 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
 
   args.GetReturnValue().Set(readout);
   */
+}
+
 
 void Read(const Nan::FunctionCallbackInfo<Value>& args) {
 }
