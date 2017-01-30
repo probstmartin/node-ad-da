@@ -26,7 +26,6 @@
 #define uint32_t unsigned long     
 
 
-
 #define channel_A   0x30
 #define channel_B   0x34
 
@@ -97,7 +96,6 @@ typedef struct
 	uint8_t Channel;			/* The current channel*/
 	uint8_t ScanMode;	/*Scanning mode,   0  Single-ended input  8 channel£¬ 1 Differential input  4 channel*/
 }ADS1256_VAR_T;
-
 
 
 /*Register definition£º Table 23. Register Map --- ADS1256 datasheet Page 30*/
