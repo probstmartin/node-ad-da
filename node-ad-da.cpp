@@ -36,8 +36,10 @@ class ReadWorker : public Nan::AsyncWorker {
     }
 
     void Read() {
+      int result = 0;
+      int retry = _max_retries;
       while (true) {
-        result = readADS();
+        result = readADC();
         if (result == 0 || --retry < 0) break;
         usleep(450000);
       }
@@ -46,12 +48,16 @@ class ReadWorker : public Nan::AsyncWorker {
 };
 
 void ReadAsync(const Nan::FunctionCallbackInfo<Value>& args) {
-  Nan::AsyncQueueWorker(new ReadWorker());
+  Nan::Callback *callback = new Nan::Callback(args[2].As<Function>());
+  
+  Nan::AsyncQueueWorker(new ReadWorker(callback));
 }
 
 void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) { 
   while (true) {
-    result = readADS();
+    int result = 0;
+    int retry = _max_retries;
+    result = readADC();
     if (result == 0 || --retry < 0) break;
     usleep(450000);
   }
