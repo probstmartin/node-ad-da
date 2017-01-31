@@ -60,7 +60,7 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
     int result = 0;
     int retry = _max_retries;
     result = readADC();
-    if (result == 0 || --retry < 0) break;
+    //if (result == 0 || --retry < 0) break;
     usleep(450000);
   }
 
