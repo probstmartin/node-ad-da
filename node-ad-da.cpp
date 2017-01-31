@@ -17,7 +17,7 @@ class ReadWorker : public Nan::AsyncWorker {
     ReadWorker(Nan::Callback *callback)
       : Nan::AsyncWorker(callback) { }
 
-    void  () {
+    void Execute () {
       sensorMutex.lock();
       Init();
       Read();
@@ -60,6 +60,7 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
     int result = 0;
     int retry = _max_retries;
     result = readADC();
+    printf("Result: %i \n", result);
     //if (result == 0 || --retry < 0) break;
     usleep(450000);
   }
