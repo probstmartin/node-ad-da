@@ -17,7 +17,7 @@ class ReadWorker : public Nan::AsyncWorker {
     ReadWorker(Nan::Callback *callback)
       : Nan::AsyncWorker(callback) { }
 
-    void Execute() {
+    void  () {
       sensorMutex.lock();
       Init();
       Read();
@@ -78,6 +78,7 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
 
 
 void Read(const Nan::FunctionCallbackInfo<Value>& args) {
+    ReadSync(args);
 }
 
 void SetMaxRetries(const Nan::FunctionCallbackInfo<Value>& args) {
