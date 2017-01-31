@@ -1,3 +1,3 @@
 var sensor = require('./build/Release/node-ad-da');
 
-sensor.readADC();
+sensor.read();
