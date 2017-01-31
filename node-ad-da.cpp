@@ -78,7 +78,7 @@ void ReadSync(const Nan::FunctionCallbackInfo<Value>& args) {
 
 
 void Read(const Nan::FunctionCallbackInfo<Value>& args) {
-    ReadSync(args);
+	ReadSync(args);
 }
 
 void SetMaxRetries(const Nan::FunctionCallbackInfo<Value>& args) {
